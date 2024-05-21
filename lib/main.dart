@@ -1,16 +1,15 @@
-import 'dart:ui';
+// ignore_for_file: avoid_print, library_private_types_in_public_api
+
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'fart.dart';
 import 'quiz_menu.dart';
 import 'dart:convert';
 import 'dart:io';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: NewPage(),
   ));
   SystemChrome.setPreferredOrientations(
@@ -75,6 +74,7 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        _launchUrl("https://www.goarmy.com/");
         Navigator.pop(context);
       },
       style: ElevatedButton.styleFrom(
@@ -102,7 +102,7 @@ class ListButtonWidget extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NewPage()),
+          MaterialPageRoute(builder: (context) => const NewPage()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -157,7 +157,7 @@ class ButtonWidget extends StatelessWidget {
 }
 
 class QuizPage extends StatelessWidget {
-  QuizPage({super.key});
+  const QuizPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
@@ -208,7 +208,7 @@ class QuizPage extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           fontFamily: "News Gothic"),
                     )),
-                Positioned(
+                const Positioned(
                     top: 25, left: 0, child: ButtonWidget(target: NewPage())),
                 Positioned(
                     top: -15,
@@ -270,10 +270,9 @@ class QuizPage extends StatelessWidget {
                                   fit: BoxFit.fill,
                                   image: AssetImage(
                                       "assets/bg_pawn_orange_light.png"))),
-                          child: Quiz()),
+                          child: const Quiz()),
                       Center(
                         child: ElevatedButton(
-                          child: Text("Submit"),
                           style: ButtonStyle(
                               foregroundColor:
                                   MaterialStateProperty.all<Color>(colorOrange),
@@ -287,6 +286,7 @@ class QuizPage extends StatelessWidget {
 
                             print(await loadAnswers());
                           },
+                          child: const Text("Submit"),
                         ),
                       ),
                     ],
@@ -342,14 +342,14 @@ class _QuizState extends State<Quiz> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: PageView.builder(
           itemCount: questions.length,
           itemBuilder: (context, index) {
             return Card(
               shadowColor: Colors.transparent,
               color: Colors.transparent,
-              margin: EdgeInsets.symmetric(vertical: 10.0),
+              margin: const EdgeInsets.symmetric(vertical: 10.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -359,7 +359,7 @@ class _QuizState extends State<Quiz> {
                       //--------------------Question-----------------------
                       questions[index].text,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     ...questions[index].answers.asMap().entries.map((entry) {
                       //----------------Answers------------------
