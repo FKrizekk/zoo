@@ -51,6 +51,9 @@ class NewPage extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             children: [
+              const SizedBox(
+                height: 25,
+              ),
               Stack(
                 children: [
                   SizedBox(
