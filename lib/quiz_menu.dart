@@ -57,30 +57,30 @@ class NewPage extends StatelessWidget {
                   SizedBox(
                     height: 120,
                   ),
-                  Positioned(
+                  const Positioned(
                     left: 0,
                     child: BackButtonWidget(),
                   ),
-                  Positioned(
+                  const Positioned(
                     left: 0,
                     right: 0,
                     top: -20,
                     height: 100,
                     child: Center(
-                        child: Text('Quiz Menu',
+                      child: Text(
+                        'Quiz Menu',
                         textAlign: TextAlign.center,
-                          style: TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "News Gothic"
-                        ),
+                        style: TextStyle(
+                            fontSize: 40,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "News Gothic"),
                       ),
                     ),
                   ),
                   Positioned(
                     right: -30,
-                    top: -30,
+                    top: -50,
                     child: Image.asset(
                     'assets/logo.png',
                     width: 150,
