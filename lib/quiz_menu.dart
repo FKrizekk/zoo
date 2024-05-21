@@ -51,7 +51,7 @@ class NewPage extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             children: [
-              const Stack(
+              Stack(
                 children: [
                   SizedBox(
                     height: 75,
@@ -60,7 +60,7 @@ class NewPage extends StatelessWidget {
                     left: 0,
                     child: BackButtonWidget(),
                   ),
-                  const Positioned(
+                  Positioned(
                     left: 0,
                     right: 0,
                     top: -10,
