@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -22,7 +23,10 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        _launchUrl("https://www.goarmy.com/");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewPage()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
@@ -34,6 +38,43 @@ class BackButtonWidget extends StatelessWidget {
       child: const Icon(
         Icons.arrow_back,
         color: Colors.white, // Icon color
+      ),
+    );
+  }
+}
+class NewPage extends StatelessWidget {
+  
+  @override
+  Widget build(BuildContext context) {
+    final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
+    return Scaffold(
+       
+      appBar: AppBar(
+        title: Text('Quiz Menu',
+        textAlign: TextAlign.left,
+        style: TextStyle(fontSize: 30,
+        fontWeight: FontWeight.w600,
+        color: colorOrange,
+        fontFamily: 'News Gothic'
+        
+        ),
+        ),
+        backgroundColor: Colors.white,
+      ),
+      body: Container(
+        color: colorOrange,
+        child:Center(
+        child: Text(
+          'You have navigated to the new page!',
+          textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+
+
+          ),
+        ),
+      ),
       ),
     );
   }
