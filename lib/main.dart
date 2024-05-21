@@ -34,14 +34,22 @@ class MyApp extends StatelessWidget {
                     fit: BoxFit.fitHeight,
                   )
                 ),
-                Positioned( //---------------Header thingy------------
-                  bottom: 0,
-                  child: Image.asset(
-                    'assets/top_thingy.png',
-                    width: 500,
-                    height: 100,
-                    fit: BoxFit.fill,
-                  ),
+                Column(
+                  children: [
+                    Positioned( //---------------Header thingy------------
+                      bottom: 0,
+                      child: Image.asset(
+                        'assets/top_thingy.png',
+                        width: 500,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    Container(
+                      height: 75,
+                      color: colorOrange,
+                    )
+                  ],
                 ),
                 const Positioned( //----------------Animal name---------------
                   left: 25,
