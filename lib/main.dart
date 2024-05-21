@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, library_private_types_in_public_api
+// ignore_for_file: avoid_print
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +157,9 @@ class ButtonWidget extends StatelessWidget {
 }
 
 class QuizPage extends StatelessWidget {
-  const QuizPage({super.key});
+  const QuizPage({super.key, required this.animalId});
+
+  final int animalId;
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
@@ -270,7 +272,7 @@ class QuizPage extends StatelessWidget {
                                   fit: BoxFit.fill,
                                   image: AssetImage(
                                       "assets/bg_pawn_orange_light.png"))),
-                          child: const Quiz()),
+                          child: Quiz(animalId: animalId)),
                       Center(
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -302,8 +304,9 @@ class QuizPage extends StatelessWidget {
 }
 
 class Quiz extends StatefulWidget {
-  const Quiz({super.key});
+  const Quiz({super.key, required this.animalId});
 
+  final int animalId;
   @override
   _QuizState createState() => _QuizState();
 }
@@ -339,6 +342,7 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.animalId);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(

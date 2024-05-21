@@ -21,7 +21,7 @@ class NewPage extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => QuizPage(),
+                builder: (context) => QuizPage(animalId: 3),
               ));
         },
         child: Container(
