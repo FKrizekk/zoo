@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,6 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: colorOrange,
         body: ListView(
-          addAutomaticKeepAlives: false,
           children: [
             Stack(
               alignment: Alignment.bottomCenter,
@@ -36,17 +37,14 @@ class MyApp extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Positioned( //---------------Header thingy------------
-                      bottom: 0,
-                      child: Image.asset(
-                        'assets/top_thingy.png',
-                        width: 500,
-                        height: 100,
-                        fit: BoxFit.fill,
-                      ),
+                    Image.asset(
+                      'assets/top_thingy.png',
+                      width: 500,
+                      height: 100,
+                      fit: BoxFit.fill,
                     ),
                     Container(
-                      height: 75,
+                      height: 60,
                       color: colorOrange,
                     )
                   ],
@@ -94,7 +92,30 @@ class MyApp extends StatelessWidget {
               ),
             ),
             
-            const Image(image: AssetImage("assets/bg_pawn_orange.png"))
+            Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                const Image(
+                  image: AssetImage("assets/bg_pawn_orange.png"
+                  )
+                ),
+                Positioned(
+                  top: 50,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      color: Color.fromARGB(255, 255, 199, 159),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: AssetImage("assets/bg_pawn_orange_light.png")
+                      )
+                    ),
+                    width: 300,
+                    height: 500
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),
