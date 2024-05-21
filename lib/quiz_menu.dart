@@ -1,75 +1,146 @@
 // new_page.dart
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zoo/main.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'package:flutter/services.dart';
+
+
+enum Stats {
+  weight,
+  habitat,
+  size,
+  diet,
+  occurrence
+}
+
+Future<Map> readJson(int id) async {
+  final String response = await rootBundle.loadString('data/quiz.json');
+  final data = await json.decode(response);
+  
+  final d = data[id];
+  
+  // return [
+  //   d["Name"],
+  //   d["Image"],
+  //   d["WeightR"],
+  //   d["Weight1F"],
+  //   d["Weight2F"],
+  //   d["HabitatR"],
+  //   d["Habitat1F"],
+  //   d["Habitat2F"],
+  //   d["SizeR"],
+  //   d["Size1F"],
+  //   d["Size2F"],
+  //   d["DietR"],
+  //   d["Diet1F"],
+  //   d["Diet2F"],
+  //   d["OccurrenceR"],
+  //   d["Occurrence1F"],
+  //   d["Occurrence2F"],
+  // ];
+  return d;
+}
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
-  final int numberOfQuizzes = 20;
-  final String animalPictureName = "animal_images/winton.jpg";
-  final String animalName = "Gorila nížinná";
-  final int userPercent = 75;
+  final int numberOfQuizzes = 5;
 
-//create the box grid thing
   List<Widget> _buildQuizContainers(int count, BuildContext context) {
     return List<Widget>.generate(
       count,
-      (index) => GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => QuizPage(animalId: 3),
-              ));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white,
-              image: DecorationImage(
-                  image: AssetImage(animalPictureName), fit: BoxFit.cover)),
-          height: 175,
-          width: 175,
-          child: Stack(children: [
-            Positioned(
-              bottom: 0,
+      (index) => FutureBuilder(
+        future: readJson(index),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.grey[200],
+              ),
+              height: 175,
+              width: 175,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          } else if (snapshot.hasError) {
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.grey[200],
+              ),
+              height: 175,
+              width: 175,
+              child: Center(child: Icon(Icons.error)),
+            );
+          } else {
+            final data = snapshot.data as Map;
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizPage(data: data),
+                  ),
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15)),
-                    color: colorOrangeLight),
-                height: 75,
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    image: DecorationImage(
+                        image: AssetImage("animal_images/${data["Image"]}"),
+                        fit: BoxFit.cover)),
+                height: 175,
                 width: 175,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      animalName,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "News Gothic"),
+                child: Stack(children: [
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/bg_pawn_orange_light.png"),
+                          fit: BoxFit.cover
+                          ),
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                          color: colorOrangeLight),
+                      height: 75,
+                      width: 175,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            data["Name"],
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          Text(
+                            "userPercent%", // Replace with actual user percentage if available
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: "News Gothic"),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      "$userPercent%",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: "News Gothic"),
-                    ),
-                  ],
-                ),
+                  )
+                ]),
               ),
-            )
-          ]),
-        ),
+            );
+          }
+        },
       ),
     );
   }

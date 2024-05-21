@@ -157,9 +157,9 @@ class ButtonWidget extends StatelessWidget {
 }
 
 class QuizPage extends StatelessWidget {
-  const QuizPage({super.key, required this.animalId});
+  const QuizPage({super.key, required this.data});
 
-  final int animalId;
+  final dynamic data;
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
@@ -174,15 +174,13 @@ class QuizPage extends StatelessWidget {
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                Transform.flip(
-                    flipX: true,
-                    child: Image.asset(
-                      //------------Animal image---------------
-                      'animal_images/winton.jpg',
-                      width: 500,
-                      height: 500,
-                      fit: BoxFit.fitHeight,
-                    )),
+                Image.asset(
+                  //------------Animal image---------------
+                  'animal_images/${data["Image"]}',
+                  width: 500,
+                  height: 500,
+                  fit: BoxFit.cover,
+                ),
                 Column(
                   children: [
                     Image.asset(
@@ -197,18 +195,19 @@ class QuizPage extends StatelessWidget {
                     )
                   ],
                 ),
-                const Positioned(
+                Positioned(
                     //----------------Animal name---------------
                     left: 25,
                     bottom: 0,
+                    width: 280,
                     child: Text(
-                      'GORILA\nNÍŽINNÁ',
+                      data["Name"],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 50,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
-                          fontFamily: "News Gothic"),
+                          ),
                     )),
                 const Positioned(
                     top: 25, left: 0, child: ButtonWidget(target: NewPage())),
@@ -222,25 +221,25 @@ class QuizPage extends StatelessWidget {
                     ))
               ],
             ),
-            const Padding(
+            Padding(
               //----------Animal Location--------------
-              padding: EdgeInsets.only(left: 25),
+              padding: const EdgeInsets.only(left: 25),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.map_outlined,
                     size: 30,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 0),
+                    padding: const EdgeInsets.only(top: 0),
                     child: Text(
-                      'Rezervace Dja',
+                      data["Pavilon"],
                       textAlign: TextAlign.left,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 25,
                         color: Colors.white,
                       ),
@@ -272,7 +271,7 @@ class QuizPage extends StatelessWidget {
                                   fit: BoxFit.fill,
                                   image: AssetImage(
                                       "assets/bg_pawn_orange_light.png"))),
-                          child: Quiz(animalId: animalId)),
+                          child: Quiz(data: data)),
                       Center(
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -304,9 +303,9 @@ class QuizPage extends StatelessWidget {
 }
 
 class Quiz extends StatefulWidget {
-  const Quiz({super.key, required this.animalId});
+  const Quiz({super.key, required this.data});
 
-  final int animalId;
+  final dynamic data;
   @override
   _QuizState createState() => _QuizState();
 }
@@ -342,7 +341,7 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.animalId);
+    print(widget.data);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
