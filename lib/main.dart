@@ -9,20 +9,18 @@ import 'quiz_menu.dart';
 import 'dart:convert';
 import 'dart:io';
 
-
-
 void main() {
   runApp(QuizPage());
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 }
+
 Future<void> _launchUrl(String url) async {
   if (!await launchUrl(Uri.parse(url))) {
     throw Exception('Could not launch $url');
   }
 }
+
 Future<List<int>> loadAnswers() async {
   try {
     final directory = await getApplicationDocumentsDirectory();
@@ -44,6 +42,7 @@ Future<List<int>> loadAnswers() async {
 
   return [];
 }
+
 Future<void> storeAnswers(List<int> answers) async {
   final directory = await getApplicationDocumentsDirectory();
   final file = File('${directory.path}/data/answers.json');
@@ -51,9 +50,7 @@ Future<void> storeAnswers(List<int> answers) async {
   // Create the quizzes structure
   final Map<String, dynamic> quizzesData = {
     "quizzes": [
-      {
-        "answers": answers
-      }
+      {"answers": answers}
     ]
   };
 
@@ -81,8 +78,9 @@ class BackButtonWidget extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))
-        ),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25),
+                bottomRight: Radius.circular(25))),
         padding: const EdgeInsets.all(16.0), // Padding inside the button
       ),
       child: const Icon(
@@ -108,8 +106,9 @@ class ListButtonWidget extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))
-        ),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25),
+                bottomRight: Radius.circular(25))),
         padding: const EdgeInsets.all(16.0), // Padding inside the button
       ),
       child: const Icon(
@@ -155,7 +154,6 @@ class ButtonWidget extends StatelessWidget {
   }
 }
 
-
 class QuizPage extends StatelessWidget {
   QuizPage({super.key});
 
@@ -173,14 +171,14 @@ class QuizPage extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               children: [
                 Transform.flip(
-                  flipX: true,
-                  child: Image.asset( //------------Animal image---------------
-                    'animal_images/winton.jpg',
-                    width: 500,
-                    height: 500,
-                    fit: BoxFit.fitHeight,
-                  )
-                ),
+                    flipX: true,
+                    child: Image.asset(
+                      //------------Animal image---------------
+                      'animal_images/winton.jpg',
+                      width: 500,
+                      height: 500,
+                      fit: BoxFit.fitHeight,
+                    )),
                 Column(
                   children: [
                     Image.asset(
@@ -195,39 +193,33 @@ class QuizPage extends StatelessWidget {
                     )
                   ],
                 ),
-                const Positioned( //----------------Animal name---------------
-                  left: 25,
-                  bottom: 0,
-                  child: Text(
-                    'GORILA\nNÍŽINNÁ',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 50,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "News Gothic"
-                    ),
-                  )
-                ),
+                const Positioned(
+                    //----------------Animal name---------------
+                    left: 25,
+                    bottom: 0,
+                    child: Text(
+                      'GORILA\nNÍŽINNÁ',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 50,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "News Gothic"),
+                    )),
                 Positioned(
-                  top: 25,
-                  left: 0,
-                  child: ButtonWidget(target: NewPage())
-                ),
+                    top: 25, left: 0, child: ButtonWidget(target: NewPage())),
                 Positioned(
-                  top: -15,
-                  right: -25,
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 150,
-                    height: 150,
-
-
-                  )
-                )
+                    top: -15,
+                    right: -25,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      width: 150,
+                      height: 150,
+                    ))
               ],
             ),
-            const Padding( //----------Animal Location--------------
+            const Padding(
+              //----------Animal Location--------------
               padding: EdgeInsets.only(left: 25),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -253,39 +245,38 @@ class QuizPage extends StatelessWidget {
                 ],
               ),
             ),
-            
             Stack(
               alignment: Alignment.topCenter,
               children: [
-                const Image( //-----------------Background paws--------------------
-                  image: AssetImage("assets/bg_pawn_orange.png"
-                  )
-                ),
-                Positioned( //-------------------Quiz Container-----------------------------
+                const Image(
+                    //-----------------Background paws--------------------
+                    image: AssetImage("assets/bg_pawn_orange.png")),
+                Positioned(
+                  //-------------------Quiz Container-----------------------------
                   top: 50,
                   left: 25,
                   right: 25,
                   child: Column(
                     children: [
                       Container(
-                        height: 300,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                          color: Color.fromARGB(255, 255, 199, 159),
-                          image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: AssetImage("assets/bg_pawn_orange_light.png")
-                          )
-                        ),
-                        child: Quiz()
-                      ),
+                          height: 300,
+                          decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
+                              color: Color.fromARGB(255, 255, 199, 159),
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      "assets/bg_pawn_orange_light.png"))),
+                          child: Quiz()),
                       Center(
                         child: ElevatedButton(
                           child: Text("Submit"),
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(colorOrange),
-                            overlayColor: MaterialStateProperty.all<Color>(colorOrangeLight)
-                          ),
+                              foregroundColor:
+                                  MaterialStateProperty.all<Color>(colorOrange),
+                              overlayColor: MaterialStateProperty.all<Color>(
+                                  colorOrangeLight)),
                           onPressed: () async {
                             //Write answers to json
                             storeAnswers(_QuizState.selectedAnswers);
@@ -339,7 +330,7 @@ class _QuizState extends State<Quiz> {
     ),
   ];
 
-  static List<int> selectedAnswers = [0,0,0,0,0];
+  static List<int> selectedAnswers = [0, 0, 0, 0, 0];
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
@@ -362,11 +353,14 @@ class _QuizState extends State<Quiz> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text( //--------------------Question-----------------------
+                    Text(
+                      //--------------------Question-----------------------
                       questions[index].text,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    ...questions[index].answers.asMap().entries.map((entry) { //----------------Answers------------------
+                    ...questions[index].answers.asMap().entries.map((entry) {
+                      //----------------Answers------------------
                       int answerIndex = entry.key;
                       String answerText = entry.value;
                       return RadioListTile(
