@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'fart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,43 +43,7 @@ class BackButtonWidget extends StatelessWidget {
     );
   }
 }
-class NewPage extends StatelessWidget {
-  
-  @override
-  Widget build(BuildContext context) {
-    final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
-    return Scaffold(
-       
-      appBar: AppBar(
-        title: Text('Quiz Menu',
-        textAlign: TextAlign.left,
-        style: TextStyle(fontSize: 30,
-        fontWeight: FontWeight.w600,
-        color: colorOrange,
-        fontFamily: 'News Gothic'
-        
-        ),
-        ),
-        backgroundColor: Colors.white,
-      ),
-      body: Container(
-        color: colorOrange,
-        child:Center(
-        child: Text(
-          'You have navigated to the new page!',
-          textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
 
-
-          ),
-        ),
-      ),
-      ),
-    );
-  }
-}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
