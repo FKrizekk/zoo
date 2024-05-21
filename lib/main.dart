@@ -171,7 +171,7 @@ class QuizPage extends StatelessWidget {
                       ),
                       Center(
                         child: ElevatedButton(
-                          child: Text("PRess meee"),
+                          child: Text("Submit"),
                           onPressed: () {
                             print("Submitted\n${_QuizState.selectedAnswers}");
                           },
