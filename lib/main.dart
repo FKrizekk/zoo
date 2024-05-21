@@ -173,7 +173,7 @@ class QuizPage extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text("PRess meee"),
                           onPressed: () {
-                            print("Submitted\n${Quiz.selectedAnswers}");
+                            print("Submitted\n${_QuizState.selectedAnswers}");
                           },
                         ),
                       ),
@@ -191,8 +191,6 @@ class QuizPage extends StatelessWidget {
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
-
-  static Map<int, int> selectedAnswers = {};
 
   @override
   _QuizState createState() => _QuizState();
@@ -222,10 +220,10 @@ class _QuizState extends State<Quiz> {
     ),
   ];
 
+  static Map<int, int> selectedAnswers = {};
+
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
-  
-  get selectedAnswers => _QuizState().selectedAnswers;
 
   @override
   Widget build(BuildContext context) {
