@@ -164,12 +164,7 @@ class QuizPage extends StatelessWidget {
                         image: AssetImage("assets/bg_pawn_orange_light.png")
                       )
                     ),
-                    child: const Column(
-                      children: [
-                        //Quiz(),
-                        Text("data")
-                      ],
-                    ),
+                    child: Quiz()
                   ),
                 )
               ],
@@ -225,6 +220,7 @@ class _QuizState extends State<Quiz> {
           itemCount: questions.length,
           itemBuilder: (context, index) {
             return Card(
+              color: Colors.transparent,
               margin: EdgeInsets.symmetric(vertical: 10.0),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
