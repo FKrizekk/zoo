@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +8,11 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+}
+Future<void> _launchUrl(String url) async {
+  if (!await launchUrl(Uri.parse(url))) {
+    throw Exception('Could not launch $url');
+  }
 }
 
 class BackButtonWidget extends StatelessWidget {
@@ -19,7 +22,7 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        SystemNavigator.pop();
+        _launchUrl("https://www.goarmy.com/");
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
