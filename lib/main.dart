@@ -188,7 +188,7 @@ class MyApp extends StatelessWidget {
                   top: 50,
                   left: 25,
                   right: 25,
-                  child: Container(
+                  child: Container( //--------------------------Quiz Container-----------------------------------
                     height: 300,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -198,6 +198,7 @@ class MyApp extends StatelessWidget {
                         image: AssetImage("assets/bg_pawn_orange_light.png")
                       )
                     ),
+                    child: QuizPage(),
                   ),
                 )
               ],
@@ -207,4 +208,90 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+class QuizPage extends StatefulWidget {
+  const QuizPage({super.key});
+
+  @override
+  _QuizPageState createState() => _QuizPageState();
+}
+
+class _QuizPageState extends State<QuizPage> {
+  List<Question> questions = [
+    Question(
+      text: "Which monkey is the best?",
+      answers: ["Monkey 1", "Monkey 2", "Monkey 3"],
+    ),
+    Question(
+      text: "Which planet is known as the Red Planet?",
+      answers: ["Earth", "Mars", "Jupiter"],
+    ),
+    Question(
+      text: "What is the largest ocean on Earth?",
+      answers: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean"],
+    ),
+    Question(
+      text: "Who wrote 'To be, or not to be'?",
+      answers: ["Mark Twain", "Charles Dickens", "William Shakespeare"],
+    ),
+    Question(
+      text: "What is the chemical symbol for water?",
+      answers: ["H2O", "O2", "CO2"],
+    ),
+  ];
+
+  PageController _pageController = PageController();
+  Map<int, int> selectedAnswers = {};
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: PageView.builder(
+          itemCount: questions.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin: EdgeInsets.symmetric(vertical: 10.0),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      questions[index].text,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    ...questions[index].answers.asMap().entries.map((entry) {
+                      int answerIndex = entry.key;
+                      String answerText = entry.value;
+                      return RadioListTile(
+                        title: Text(answerText),
+                        value: answerIndex,
+                        groupValue: selectedAnswers[index],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedAnswers[index] = value!;
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class Question {
+  String text;
+  List<String> answers;
+
+  Question({required this.text, required this.answers});
 }
