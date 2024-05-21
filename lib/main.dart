@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const QuizPage());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -80,8 +80,8 @@ class NewPage extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class QuizPage extends StatelessWidget {
+  const QuizPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
 
@@ -198,7 +198,7 @@ class MyApp extends StatelessWidget {
                         image: AssetImage("assets/bg_pawn_orange_light.png")
                       )
                     ),
-                    child: QuizPage(),
+                    child: Quiz(),
                   ),
                 )
               ],
@@ -210,14 +210,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+class Quiz extends StatefulWidget {
+  const Quiz({super.key});
 
   @override
-  _QuizPageState createState() => _QuizPageState();
+  _QuizState createState() => _QuizState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _QuizState extends State<Quiz> {
   List<Question> questions = [
     Question(
       text: "Which monkey is the best?",
@@ -241,7 +241,6 @@ class _QuizPageState extends State<QuizPage> {
     ),
   ];
 
-  PageController _pageController = PageController();
   Map<int, int> selectedAnswers = {};
 
   @override
