@@ -9,14 +9,14 @@ class NewPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'New Page',
+          'Quiz Menu',
           style: TextStyle(
             fontSize: 30, // Adjust the font size as needed
             fontWeight: FontWeight.bold,
             fontFamily: 'News Gothic', // Use the same font family as MyApp
           ),
         ),
-        backgroundColor: colorOrange,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         color: colorOrange,
