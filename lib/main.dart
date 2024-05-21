@@ -93,6 +93,17 @@ class MyApp extends StatelessWidget {
                   left: 0,
                   child: BackButtonWidget(),
                 ),
+                Positioned(
+                  top: 25,
+                  right:25,
+                  child: Image.asset(
+                    'assets/logo.png',
+                    width: 50,
+                    height: 50,
+
+
+                  )
+                )
               ],
             ),
             const Padding( //----------Animal Location--------------

@@ -64,6 +64,7 @@ flutter:
     - assets/bg_pawn_orange.png
     - assets/bg_pawn_orange_light.png
     - animal_images/winton.jpg
+    - assets\logo.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
