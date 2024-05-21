@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoo/main.dart';
 
-
-
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
 
@@ -56,8 +54,8 @@ class NewPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BackButtonWidget(),
-                      Text(
+                      const BackButtonWidget(),
+                      const Text(
                         '  Quiz List',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -70,12 +68,9 @@ class NewPage extends StatelessWidget {
                         'assets/logo.png',
                         width: 100,
                         height: 100,
-                      
-                      
                       ),
                     ],
                   )
-                  
                 ],
               ),
               Center(
