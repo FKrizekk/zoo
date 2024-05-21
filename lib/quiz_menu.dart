@@ -5,7 +5,7 @@ class NewPage extends StatelessWidget {
   const NewPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
-  final int numberOfQuizzes = 3;
+  final int numberOfQuizzes = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,8 @@ class NewPage extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
+        body: ListView(
+          padding: const EdgeInsets.all(20),
           children: [
             Center(
               child: Wrap(
@@ -44,7 +43,6 @@ class NewPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
