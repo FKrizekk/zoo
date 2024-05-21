@@ -25,10 +25,7 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NewPage()),
-        );
+        Navigator.pop(context);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
@@ -99,10 +96,15 @@ class QuizPage extends StatelessWidget {
                     ),
                   )
                 ),
-                const Positioned(
+                Positioned(
                   top: 25,
                   left: 0,
-                  child: BackButtonWidget(),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => NewPage()));
+                    }, child: Text("List"),
+                  ),
                 ),
                 Positioned(
                   top: -15,
