@@ -6,18 +6,35 @@ class NewPage extends StatelessWidget {
   const NewPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
+  final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
   final int numberOfQuizzes = 20;
+  final String animalPictureName = "animal_images/winton.jpg";
 
   List<Widget> _buildQuizContainers(int count) {
     return List<Widget>.generate(
       count,
       (index) => Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
-        ),
-        height: 150,
-        width: 150,
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.white,
+            image: DecorationImage(
+                image: AssetImage(animalPictureName), fit: BoxFit.cover)),
+        height: 175,
+        width: 175,
+        child: Stack(children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                  color: colorOrangeLight),
+              height: 75,
+              width: 175,
+            ),
+          )
+        ]),
       ),
     );
   }
