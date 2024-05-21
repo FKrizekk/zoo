@@ -9,32 +9,67 @@ class NewPage extends StatelessWidget {
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
   final int numberOfQuizzes = 20;
   final String animalPictureName = "animal_images/winton.jpg";
+  final String animalName = "Gorila nížinná";
+  final int userPercent = 75;
 
-  List<Widget> _buildQuizContainers(int count) {
+//create the box grid thing
+  List<Widget> _buildQuizContainers(int count, BuildContext context) {
     return List<Widget>.generate(
       count,
-      (index) => Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.white,
-            image: DecorationImage(
-                image: AssetImage(animalPictureName), fit: BoxFit.cover)),
-        height: 175,
-        width: 175,
-        child: Stack(children: [
-          Positioned(
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15)),
-                  color: colorOrangeLight),
-              height: 75,
-              width: 175,
-            ),
-          )
-        ]),
+      (index) => GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => QuizPage(),
+              ));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              image: DecorationImage(
+                  image: AssetImage(animalPictureName), fit: BoxFit.cover)),
+          height: 175,
+          width: 175,
+          child: Stack(children: [
+            Positioned(
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(15),
+                        bottomRight: Radius.circular(15)),
+                    color: colorOrangeLight),
+                height: 75,
+                width: 175,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      animalName,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "News Gothic"),
+                    ),
+                    Text(
+                      "$userPercent%",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "News Gothic"),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
@@ -77,7 +112,7 @@ class NewPage extends StatelessWidget {
                 child: Wrap(
                   spacing: 20,
                   runSpacing: 20,
-                  children: _buildQuizContainers(numberOfQuizzes),
+                  children: _buildQuizContainers(numberOfQuizzes, context),
                 ),
               ),
             ],
