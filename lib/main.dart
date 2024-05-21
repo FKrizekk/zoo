@@ -177,12 +177,7 @@ class QuizPage extends StatelessWidget {
                 Positioned(
                   top: 25,
                   left: 0,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => NewPage()));
-                    }, child: Text("List"),
-                  ),
+                  child: ListButtonWidget()
                 ),
                 Positioned(
                   top: -15,
