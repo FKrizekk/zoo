@@ -25,24 +25,29 @@ class NewPage extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-        body: ListView(
-          padding: const EdgeInsets.all(20),
+        body: Stack(
           children: [
-            Center(
-              child: Wrap(
-                spacing: 20,
-                runSpacing: 20,
-                children: [
-                  for (var i = 0; i < numberOfQuizzes; i++)
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      height: 150,
-                      width: 150,
-                    ),
-                ],
-              ),
+            Image.asset("assets/bg_pawn_orange.png"),
+            ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Center(
+                  child: Wrap(
+                    spacing: 20,
+                    runSpacing: 20,
+                    children: [
+                      for (var i = 0; i < numberOfQuizzes; i++)
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white),
+                          height: 150,
+                          width: 150,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
