@@ -45,21 +45,8 @@ class BackButtonWidget extends StatelessWidget {
 }
 
 
-<<<<<<< HEAD
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-=======
-          ),
-        ),
-      ),
-      ),
-    );
-  }
-}
-
 class QuizPage extends StatelessWidget {
   const QuizPage({super.key});
->>>>>>> b182cf35323543bd3d54760853f46358dc87fa97
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
 
