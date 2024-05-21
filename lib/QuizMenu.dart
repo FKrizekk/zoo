@@ -27,7 +27,7 @@ class NewPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24, // Adjust the font size as needed
-              color: Colors.white,
+              color: Colors.black,
               fontFamily: 'News Gothic', // Use the same font family as MyApp
             ),
           ),
