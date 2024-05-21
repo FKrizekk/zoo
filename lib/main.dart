@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -101,7 +99,10 @@ class MyApp extends StatelessWidget {
                 ),
                 Positioned(
                   top: 50,
+                  left: 25,
+                  right: 25,
                   child: Container(
+                    height: 300,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                       color: Color.fromARGB(255, 255, 199, 159),
@@ -110,8 +111,6 @@ class MyApp extends StatelessWidget {
                         image: AssetImage("assets/bg_pawn_orange_light.png")
                       )
                     ),
-                    width: 300,
-                    height: 500
                   ),
                 )
               ],
