@@ -76,6 +76,30 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        Navigator.pop(context);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange, // Background color
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))
+        ),
+        padding: const EdgeInsets.all(16.0), // Padding inside the button
+      ),
+      child: const Icon(
+        Icons.arrow_back,
+        color: Colors.white, // Icon color
+      ),
+    );
+  }
+}
+
+class ListButtonWidget extends StatelessWidget {
+  const ListButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NewPage()),
@@ -150,10 +174,10 @@ class QuizPage extends StatelessWidget {
                     ),
                   )
                 ),
-                const Positioned(
+                Positioned(
                   top: 25,
                   left: 0,
-                  child: BackButtonWidget(),
+                  child: ListButtonWidget()
                 ),
                 Positioned(
                   top: -15,
