@@ -180,16 +180,16 @@ class QuizPage extends StatelessWidget {
             Stack(
               alignment: Alignment.topCenter,
               children: [
-                const Image(
+                const Image( //-----------------Background paws--------------------
                   image: AssetImage("assets/bg_pawn_orange.png"
                   )
                 ),
-                Positioned(
+                Positioned( //-------------------Quiz Container-----------------------------
                   top: 50,
                   left: 25,
                   right: 25,
-                  child: Container( //--------------------------Quiz Container-----------------------------------
-                    height: 300,
+                  child: Container(
+                    height: 500,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                       color: Color.fromARGB(255, 255, 199, 159),
@@ -198,7 +198,12 @@ class QuizPage extends StatelessWidget {
                         image: AssetImage("assets/bg_pawn_orange_light.png")
                       )
                     ),
-                    child: Quiz(),
+                    child: const Column(
+                      children: [
+                        //Quiz(),
+                        Text("data")
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -242,6 +247,7 @@ class _QuizState extends State<Quiz> {
   ];
 
   Map<int, int> selectedAnswers = {};
+  final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
 
   @override
   Widget build(BuildContext context) {
@@ -259,17 +265,18 @@ class _QuizState extends State<Quiz> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    Text( //--------------------Question-----------------------
                       questions[index].text,
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    ...questions[index].answers.asMap().entries.map((entry) {
+                    ...questions[index].answers.asMap().entries.map((entry) { //----------------Answers------------------
                       int answerIndex = entry.key;
                       String answerText = entry.value;
                       return RadioListTile(
                         title: Text(answerText),
                         value: answerIndex,
                         groupValue: selectedAnswers[index],
+                        activeColor: colorOrange,
                         onChanged: (value) {
                           setState(() {
                             selectedAnswers[index] = value!;
