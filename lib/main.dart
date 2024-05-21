@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
 }
 
 class MyApp extends StatelessWidget {
@@ -22,27 +27,30 @@ class MyApp extends StatelessWidget {
               children: [
                 Transform.flip(
                   flipX: true,
-                  child: Image.asset( //Animal image
+                  child: Image.asset( //------------Animal image---------------
                     'animal_images/winton.jpg',
                     width: 500,
-                    fit: BoxFit.fitWidth,
+                    height: 500,
+                    fit: BoxFit.fitHeight,
                   )
                 ),
-                Positioned( //Header thingy
+                Positioned( //---------------Header thingy------------
                   bottom: 0,
                   child: Image.asset(
                     'assets/top_thingy.png',
                     width: 500,
+                    height: 100,
+                    fit: BoxFit.fill,
                   ),
                 ),
-                const Positioned( //Animal name
+                const Positioned( //----------------Animal name---------------
                   left: 25,
-                  bottom: -5,
+                  bottom: 0,
                   child: Text(
                     'GORILA\nNÍŽINNÁ',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 50,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontFamily: "News Gothic"
@@ -51,6 +59,33 @@ class MyApp extends StatelessWidget {
                 ),
               ],
             ),
+            const Padding( //----------Animal Location--------------
+              padding: EdgeInsets.only(left: 25),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.map_outlined,
+                    size: 30,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: Text(
+                      'Rezervace Dja',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
             const Image(image: AssetImage("assets/bg_pawn_orange.png"))
           ],
         ),
