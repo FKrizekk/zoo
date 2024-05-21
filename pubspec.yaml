@@ -60,6 +60,11 @@ flutter:
 
   assets:
     - assets/bazinga.jpg
+    - assets/top_thingy.png
+    - assets/bg_pawn_orange.png
+    - assets/bg_pawn_orange_light.png
+    - animal_images/winton.jpg
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -72,17 +77,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+   - family: News Gothic
+     fonts:
+       - asset: fonts/NewsGothicStd.ttf
+       - asset: fonts/NewsGothicStd-Bold.ttf
+       - asset: fonts/NewsGothicStd-BoldOblique.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
