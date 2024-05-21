@@ -8,6 +8,20 @@ class NewPage extends StatelessWidget {
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final int numberOfQuizzes = 20;
 
+  List<Widget> _buildQuizContainers(int count) {
+    return List<Widget>.generate(
+      count,
+      (index) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white,
+        ),
+        height: 150,
+        width: 150,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,32 +39,23 @@ class NewPage extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
       ),
-        body: Stack(
-          children: [
-            Image.asset("assets/bg_pawn_orange.png"),
-            ListView(
-              padding: const EdgeInsets.all(20),
-              children: [
-                Center(
-                  child: Wrap(
-                    spacing: 20,
-                    runSpacing: 20,
-                    children: [
-                      for (var i = 0; i < numberOfQuizzes; i++)
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white),
-                          height: 150,
-                          width: 150,
-                        ),
-                    ],
-                  ),
+      body: Stack(
+        children: [
+          Image.asset("assets/bg_pawn_orange.png"),
+          ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Center(
+                child: Wrap(
+                  spacing: 20,
+                  runSpacing: 20,
+                  children: _buildQuizContainers(numberOfQuizzes),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
