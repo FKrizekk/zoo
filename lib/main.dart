@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'fart.dart';
-import 'QuizMenu.dart';
+import 'quiz_menu.dart';
 
 void main() {
   runApp(QuizPage());
