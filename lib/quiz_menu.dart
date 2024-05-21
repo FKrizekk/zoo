@@ -1,5 +1,6 @@
 // new_page.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -14,6 +15,7 @@ class NewPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Quiz Menu',
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 30, // Adjust the font size as needed
             fontWeight: FontWeight.bold,
@@ -21,6 +23,7 @@ class NewPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.white,
+        centerTitle: true,
       ),
         body: ListView(
           padding: const EdgeInsets.all(20),
