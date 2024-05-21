@@ -10,7 +10,9 @@ import 'dart:convert';
 import 'dart:io';
 
 void main() {
-  runApp(QuizPage());
+  runApp(MaterialApp(
+    home: NewPage(),
+  ));
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 }

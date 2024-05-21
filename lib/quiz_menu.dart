@@ -1,8 +1,8 @@
 // new_page.dart
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:zoo/main.dart';
+
+
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -51,13 +51,11 @@ class NewPage extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             children: [
-              const SizedBox(
-                height: 25,
-              ),
+              
               Stack(
                 children: [
-                  const SizedBox(
-                    height: 75,
+                  SizedBox(
+                    height: 120,
                   ),
                   const Positioned(
                     left: 0,
@@ -66,8 +64,8 @@ class NewPage extends StatelessWidget {
                   const Positioned(
                     left: 0,
                     right: 0,
-                    top: -10,
-                    height: 75,
+                    top: -20,
+                    height: 100,
                     child: Center(
                       child: Text(
                         'Quiz Menu',
@@ -81,13 +79,16 @@ class NewPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                      right: -30,
-                      top: -50,
-                      child: Image.asset(
-                        'assets/logo.png',
-                        width: 150,
-                        height: 150,
-                      )),
+                    right: -30,
+                    top: -50,
+                    child: Image.asset(
+                    'assets/logo.png',
+                    width: 150,
+                    height: 150,
+
+
+                  )
+                  ),
                 ],
               ),
               Center(
