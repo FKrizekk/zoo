@@ -6,7 +6,7 @@ import 'fart.dart';
 import 'QuizMenu.dart';
 
 void main() {
-  runApp(const QuizPage());
+  runApp(QuizPage());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
@@ -47,9 +47,10 @@ class BackButtonWidget extends StatelessWidget {
 
 
 class QuizPage extends StatelessWidget {
-  const QuizPage({super.key});
+  QuizPage({super.key});
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
+  final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
 
   @override
   Widget build(BuildContext context) {
@@ -154,17 +155,29 @@ class QuizPage extends StatelessWidget {
                   top: 50,
                   left: 25,
                   right: 25,
-                  child: Container(
-                    height: 500,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(25)),
-                      color: Color.fromARGB(255, 255, 199, 159),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage("assets/bg_pawn_orange_light.png")
-                      )
-                    ),
-                    child: Quiz()
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 500,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: Color.fromARGB(255, 255, 199, 159),
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("assets/bg_pawn_orange_light.png")
+                          )
+                        ),
+                        child: Quiz()
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          child: Text("PRess meee"),
+                          onPressed: () {
+                            print("Submitted\n${Quiz.selectedAnswers}");
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
@@ -207,8 +220,9 @@ class _QuizState extends State<Quiz> {
     ),
   ];
 
-  Map<int, int> selectedAnswers = {};
+  static Map<int, int> selectedAnswers = {};
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
+  final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
 
   @override
   Widget build(BuildContext context) {
@@ -220,6 +234,7 @@ class _QuizState extends State<Quiz> {
           itemCount: questions.length,
           itemBuilder: (context, index) {
             return Card(
+              shadowColor: Colors.transparent,
               color: Colors.transparent,
               margin: EdgeInsets.symmetric(vertical: 10.0),
               child: Padding(
