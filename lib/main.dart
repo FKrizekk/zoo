@@ -120,6 +120,41 @@ class ListButtonWidget extends StatelessWidget {
   }
 }
 
+class ButtonWidget extends StatelessWidget {
+  final Widget target;
+
+  const ButtonWidget({
+    super.key,
+    required this.target,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => target),
+        );
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange, // Background color
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
+        ),
+        padding: const EdgeInsets.all(16.0), // Padding inside the button
+      ),
+      child: const Icon(
+        Icons.arrow_back,
+        color: Colors.white, // Icon color
+      ),
+    );
+  }
+}
+
 
 class QuizPage extends StatelessWidget {
   QuizPage({super.key});
@@ -177,7 +212,7 @@ class QuizPage extends StatelessWidget {
                 Positioned(
                   top: 25,
                   left: 0,
-                  child: ListButtonWidget()
+                  child: ButtonWidget(target: NewPage())
                 ),
                 Positioned(
                   top: -15,
