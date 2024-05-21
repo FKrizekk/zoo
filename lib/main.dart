@@ -1,9 +1,15 @@
+import 'dart:ui';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'fart.dart';
 import 'quiz_menu.dart';
+import 'dart:convert';
+import 'dart:io';
+
+
 
 void main() {
   runApp(QuizPage());
@@ -17,6 +23,51 @@ Future<void> _launchUrl(String url) async {
     throw Exception('Could not launch $url');
   }
 }
+Future<List<int>> loadAnswers() async {
+  try {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/data/answers.json');
+
+    if (await file.exists()) {
+      String jsonString = await file.readAsString();
+      Map<String, dynamic> jsonData = jsonDecode(jsonString);
+
+      List<dynamic> quizzes = jsonData['quizzes'];
+      if (quizzes.isNotEmpty) {
+        List<dynamic> answers = quizzes[0]['answers'];
+        return List<int>.from(answers);
+      }
+    }
+  } catch (e) {
+    print('Error loading answers: $e');
+  }
+
+  return [];
+}
+Future<void> storeAnswers(List<int> answers) async {
+  final directory = await getApplicationDocumentsDirectory();
+  final file = File('${directory.path}/data/answers.json');
+
+  // Create the quizzes structure
+  final Map<String, dynamic> quizzesData = {
+    "quizzes": [
+      {
+        "answers": answers
+      }
+    ]
+  };
+
+  // Encode the data to JSON
+  String jsonString = jsonEncode(quizzesData);
+
+  // Ensure the directory exists
+  await file.create(recursive: true);
+
+  // Write the JSON string to the file
+  await file.writeAsString(jsonString);
+
+  print('Answers stored at ${file.path}');
+}
 
 class BackButtonWidget extends StatelessWidget {
   const BackButtonWidget({super.key});
@@ -26,6 +77,33 @@ class BackButtonWidget extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         Navigator.pop(context);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange, // Background color
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(25), bottomRight: Radius.circular(25))
+        ),
+        padding: const EdgeInsets.all(16.0), // Padding inside the button
+      ),
+      child: const Icon(
+        Icons.arrow_back,
+        color: Colors.white, // Icon color
+      ),
+    );
+  }
+}
+
+class ListButtonWidget extends StatelessWidget {
+  const ListButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NewPage()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.orange, // Background color
@@ -174,8 +252,17 @@ class QuizPage extends StatelessWidget {
                       Center(
                         child: ElevatedButton(
                           child: Text("Submit"),
-                          onPressed: () {
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(colorOrange),
+                            overlayColor: MaterialStateProperty.all<Color>(colorOrangeLight)
+                          ),
+                          onPressed: () async {
+                            //Write answers to json
+                            storeAnswers(_QuizState.selectedAnswers);
+
                             print("Submitted\n${_QuizState.selectedAnswers}");
+
+                            print(await loadAnswers());
                           },
                         ),
                       ),
