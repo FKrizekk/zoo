@@ -158,7 +158,7 @@ class QuizPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: 500,
+                        height: 300,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                           color: Color.fromARGB(255, 255, 199, 159),
@@ -220,7 +220,7 @@ class _QuizState extends State<Quiz> {
     ),
   ];
 
-  static Map<int, int> selectedAnswers = {};
+  static List<int> selectedAnswers = [0,0,0,0,0];
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
