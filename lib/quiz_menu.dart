@@ -51,24 +51,14 @@ class NewPage extends StatelessWidget {
           ListView(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             children: [
-              
               Stack(
                 children: [
-                  SizedBox(
-                    height: 120,
-                  ),
-                  const Positioned(
-                    left: 0,
-                    child: BackButtonWidget(),
-                  ),
-                  const Positioned(
-                    left: 0,
-                    right: 0,
-                    top: -20,
-                    height: 100,
-                    child: Center(
-                      child: Text(
-                        'Quiz Menu',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BackButtonWidget(),
+                      Text(
+                        '  Quiz List',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 40,
@@ -76,19 +66,16 @@ class NewPage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             fontFamily: "News Gothic"),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    right: -30,
-                    top: -50,
-                    child: Image.asset(
-                    'assets/logo.png',
-                    width: 150,
-                    height: 150,
-
-
+                      Image.asset(
+                        'assets/logo.png',
+                        width: 100,
+                        height: 100,
+                      
+                      
+                      ),
+                    ],
                   )
-                  ),
+                  
                 ],
               ),
               Center(
