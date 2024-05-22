@@ -307,7 +307,7 @@ class QuizPage extends StatelessWidget {
 
                             await _showResultDialog(context, percentage);
                           },
-                          child: const Text("Submit"),
+                          child: const Text("Odeslat"),
                         ),
                       ),
                     ],
@@ -328,11 +328,11 @@ Future<void> _showResultDialog(BuildContext context, double percentage) async {
     barrierDismissible: false, // User must tap button to dismiss dialog
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Congratulations!'),
+        title: const Text('Gratulujeme!'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Good job! You got $percentage% correctly.'),
+              Text('Měli jste ${percentage.toStringAsFixed(0)}% odpovědí správně.'),
             ],
           ),
         ),

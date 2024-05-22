@@ -62,7 +62,7 @@ class _NewPageState extends State<NewPage> {
                     children: [
                       const BackButtonWidget(),
                       const Text(
-                        '  Quiz List',
+                        '  Kvízy',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 40,
@@ -84,7 +84,7 @@ class _NewPageState extends State<NewPage> {
                 padding: const EdgeInsets.all(8),
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search by name...',
+                    hintText: 'Vyhledat podle jména...',
                     hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 199, 159)), // Customize hint text color
                     prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 255, 199, 159)), // Customize icon color
                     filled: true,
