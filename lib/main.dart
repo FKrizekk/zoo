@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print
 
+import 'dart:math';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,6 +158,8 @@ class ButtonWidget extends StatelessWidget {
   }
 }
 
+
+
 class QuizPage extends StatelessWidget {
   const QuizPage({super.key, required this.data});
 
@@ -175,7 +179,6 @@ class QuizPage extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               children: [
                 Image.asset(
-                  //------------Animal image---------------
                   'animal_images/${data["Image"]}',
                   width: 500,
                   height: 500,
@@ -196,18 +199,17 @@ class QuizPage extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                    //----------------Animal name---------------
                     left: 25,
                     bottom: 0,
-                    width: 280,
+                    width: 400,
                     child: Text(
-                      data["Name"],
+                      data["Name"].replaceAll(' ', '\n'),
                       textAlign: TextAlign.left,
                       style: const TextStyle(
-                          fontSize: 50,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          ),
+                        fontSize: 55,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     )),
                 const Positioned(
                     top: 25, left: 0, child: ButtonWidget(target: NewPage())),
@@ -222,7 +224,6 @@ class QuizPage extends StatelessWidget {
               ],
             ),
             Padding(
-              //----------Animal Location--------------
               padding: const EdgeInsets.only(left: 25),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -252,40 +253,47 @@ class QuizPage extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 const Image(
-                    //-----------------Background paws--------------------
                     image: AssetImage("assets/bg_pawn_orange.png")),
                 Positioned(
-                  //-------------------Quiz Container-----------------------------
                   top: 50,
                   left: 25,
                   right: 25,
                   child: Column(
                     children: [
                       Container(
-                          height: 300,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              color: Color.fromARGB(255, 255, 199, 159),
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                      "assets/bg_pawn_orange_light.png"))),
-                          child: Quiz(data: data)),
+                        height: 350,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: Color.fromARGB(255, 255, 199, 159),
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("assets/bg_pawn_orange_light.png"),
+                          ),
+                        ),
+                        child: Quiz(data: data),
+                      ),
                       Center(
                         child: ElevatedButton(
                           style: ButtonStyle(
-                              foregroundColor:
-                                  MaterialStateProperty.all<Color>(colorOrange),
-                              overlayColor: MaterialStateProperty.all<Color>(
-                                  colorOrangeLight)),
+                            foregroundColor: MaterialStateProperty.all<Color>(colorOrange),
+                            overlayColor: MaterialStateProperty.all<Color>(colorOrangeLight),
+                          ),
                           onPressed: () async {
-                            //Write answers to json
-                            storeAnswers(_QuizState.selectedAnswers);
+                            int correctAnswers = 0;
+                            List<int> correctIndices = _QuizState.correctAnswerIndices;
 
-                            print("Submitted\n${_QuizState.selectedAnswers}");
+                            for (int i = 0; i < _QuizState.selectedAnswers.length; i++) {
+                              if (_QuizState.selectedAnswers[i] == correctIndices[i]) {
+                                correctAnswers++;
+                              }
+                            }
+                            double percentage = (correctAnswers / _QuizState.selectedAnswers.length) * 100;
 
-                            print(await loadAnswers());
+                            // Store the percentage of correct answers
+                            storePercentage(percentage);
+
+                            print("Submitted\nPercentage of correct answers: $percentage%");
+                            print(await loadPercentage());
                           },
                           child: const Text("Submit"),
                         ),
@@ -306,42 +314,71 @@ class Quiz extends StatefulWidget {
   const Quiz({super.key, required this.data});
 
   final dynamic data;
+
   @override
   _QuizState createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
-  List<Question> questions = [
-    Question(
-      text: "Which monkey is the best?",
-      answers: ["Monkey 1", "Monkey 2", "Monkey 3"],
-    ),
-    Question(
-      text: "Which planet is known as the Red Planet?",
-      answers: ["Earth", "Mars", "Jupiter"],
-    ),
-    Question(
-      text: "What is the largest ocean on Earth?",
-      answers: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean"],
-    ),
-    Question(
-      text: "Who wrote 'To be, or not to be'?",
-      answers: ["Mark Twain", "Charles Dickens", "William Shakespeare"],
-    ),
-    Question(
-      text: "What is the chemical symbol for water?",
-      answers: ["H2O", "O2", "CO2"],
-    ),
-  ];
-
   static List<int> selectedAnswers = [0, 0, 0, 0, 0];
+  static List<int> correctAnswerIndices = [];
 
   final Color colorOrange = const Color.fromARGB(255, 235, 118, 34);
   final Color colorOrangeLight = const Color.fromARGB(255, 255, 199, 159);
 
+  late List<Question> questions;
+
+  @override
+  void initState() {
+    super.initState();
+
+    dynamic data = widget.data;
+
+    questions = [
+      Question(
+        text: "Jak je ${data["Name"]} velký?",
+        answers: [data["SizeR"], data["Size1F"], data["Size2F"]],
+        correctAnswerIndex: 0,
+      ),
+      Question(
+        text: "Jakou má ${data["Name"]} dietu?",
+        answers: [data["DietR"], data["Diet1F"], data["Diet2F"]],
+        correctAnswerIndex: 0,
+      ),
+      Question(
+        text: "Kde se ${data["Name"]} vyskytuje?",
+        answers: [data["OccurrenceR"], data["Occurrence1F"], data["Occurrence2F"]],
+        correctAnswerIndex: 0,
+      ),
+      Question(
+        text: "Kolik ${data["Name"]} váží?",
+        answers: [data["WeightR"], data["Weight1F"], data["Weight2F"]],
+        correctAnswerIndex: 0,
+      ),
+      Question(
+        text: "Jaké má rád ${data["Name"]} prostředí?",
+        answers: [data["HabitatR"], data["Habitat1F"], data["Habitat2F"]],
+        correctAnswerIndex: 0,
+      ),
+    ];
+
+    // Shuffle the questions and answers, and update correct answer indices accordingly
+    for (var question in questions) {
+      int correctIndex = question.correctAnswerIndex;
+      List<int> answerIndices = List.generate(question.answers.length, (index) => index);
+      answerIndices.shuffle(Random());
+
+      question.answers = answerIndices.map((index) => question.answers[index]).toList();
+      question.correctAnswerIndex = answerIndices.indexOf(correctIndex);
+    }
+    questions.shuffle(Random());
+
+    // Store correct answer indices
+    correctAnswerIndices = questions.map((q) => q.correctAnswerIndex).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.data);
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -359,13 +396,10 @@ class _QuizState extends State<Quiz> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      //--------------------Question-----------------------
                       questions[index].text,
-                      style:
-                          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     ...questions[index].answers.asMap().entries.map((entry) {
-                      //----------------Answers------------------
                       int answerIndex = entry.key;
                       String answerText = entry.value;
                       return RadioListTile(
@@ -394,6 +428,20 @@ class _QuizState extends State<Quiz> {
 class Question {
   String text;
   List<String> answers;
+  int correctAnswerIndex;
 
-  Question({required this.text, required this.answers});
+  Question({
+    required this.text,
+    required this.answers,
+    required this.correctAnswerIndex,
+  });
+}
+
+void storePercentage(double percentage) {
+  // Implement the logic to store the percentage
+}
+
+Future<double> loadPercentage() async {
+  // Implement the logic to load the stored percentage
+  return 0.0;
 }
