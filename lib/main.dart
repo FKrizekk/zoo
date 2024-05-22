@@ -78,7 +78,6 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        _launchUrl("https://www.goarmy.com/");
         Navigator.pop(context);
       },
       style: ElevatedButton.styleFrom(
