@@ -256,12 +256,10 @@ class QuizPage extends StatelessWidget {
               children: [
                 ClipRect(
                   child: Align(
-                    alignment: Alignment.bottomCenter,
+                    heightFactor: 0.3,
                     child: Image.asset(
                         'assets/bg_pawn_orange.png',
                         fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width, // Adjust width as needed
-                        height: MediaQuery.of(context).size.height * 0.8, // Adjust height as needed
                     ),
                   ),
                 ),
@@ -272,7 +270,7 @@ class QuizPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        height: 350,
+                        height: 400,
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                           color: Color.fromARGB(255, 255, 199, 159),
