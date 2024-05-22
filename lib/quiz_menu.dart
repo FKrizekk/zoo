@@ -1,9 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:zoo/main.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -45,7 +45,7 @@ class NewPage extends StatelessWidget {
         future: getNumberOfAnimals(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -112,7 +112,7 @@ class NewPage extends StatelessWidget {
               ),
               height: 175,
               width: 175,
-              child: Center(child: CircularProgressIndicator()),
+              child: const Center(child: CircularProgressIndicator()),
             );
           } else if (snapshot.hasError) {
             return Container(
@@ -122,7 +122,7 @@ class NewPage extends StatelessWidget {
               ),
               height: 175,
               width: 175,
-              child: Center(child: Icon(Icons.error)),
+              child: const Center(child: Icon(Icons.error)),
             );
           } else {
             final data = snapshot.data as Map;
@@ -152,7 +152,7 @@ class NewPage extends StatelessWidget {
                       bottom: 0,
                       child: Container(
                         decoration: BoxDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage("assets/bg_pawn_orange_light.png"),
                             fit: BoxFit.cover,
                           ),
@@ -180,9 +180,9 @@ class NewPage extends StatelessWidget {
                               future: getPercentageForAnimal(data["Name"]),
                               builder: (context, percentageSnapshot) {
                                 if (percentageSnapshot.connectionState == ConnectionState.waiting) {
-                                  return CircularProgressIndicator();
+                                  return const CircularProgressIndicator();
                                 } else if (percentageSnapshot.hasError) {
-                                  return Icon(Icons.error);
+                                  return const Icon(Icons.error);
                                 } else {
                                   final percentage = percentageSnapshot.data ?? 0.0;
                                   return Text(
