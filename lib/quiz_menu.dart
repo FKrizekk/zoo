@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:zoo/main.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -45,94 +46,103 @@ class _NewPageState extends State<NewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 235, 118, 34),
-      body: ListView(
+      body: Stack(
         children: [
-          Stack(
+          Positioned(
+            width: 500,
+            child: Image.asset("assets/bg_pawn_orange.png", fit: BoxFit.cover)),
+          ListView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Stack(
                 children: [
-                  const BackButtonWidget(),
-                  const Text(
-                    '  Quiz List',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: "News Gothic"
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const BackButtonWidget(),
+                      const Text(
+                        '  Quiz List',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "News Gothic"
+                        ),
+                      ),
+                      Image.asset(
+                        'assets/logo.png',
+                        width: 100,
+                        height: 100,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search by name...',
+                    hintStyle: const TextStyle(color: Color.fromARGB(255, 255, 199, 159)), // Customize hint text color
+                    prefixIcon: const Icon(Icons.search, color: Color.fromARGB(255, 255, 199, 159)), // Customize icon color
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
                     ),
                   ),
-                  Image.asset(
-                    'assets/logo.png',
-                    width: 100,
-                    height: 100,
+                  style: const TextStyle(color: Color.fromARGB(255, 255, 199, 159)), // Customize text color
+                  cursorColor: Color.fromARGB(255, 255, 199, 159), // Customize cursor color
+                  onChanged: (value) {
+                    setState(() {
+                      _searchQuery = value.toLowerCase();
+                    });
+                  },
+                ),
+          
+              ),
+              Center(
+                child: Expanded(
+                  child: FutureBuilder<int>(
+                    future: getNumberOfAnimals(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else {
+                        final numberOfQuizzes = snapshot.data!;
+                        return FutureBuilder<List<Widget>>(
+                          future: _buildFilteredQuizContainers(numberOfQuizzes, context),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return const Center(child: Text('Error loading data'));
+                            } else {
+                              return Wrap(
+                                spacing: 20,
+                                runSpacing: 20,
+                                children: snapshot.data ?? [],
+                              );
+                            }
+                          },
+                        );
+                      }
+                    },
                   ),
-                ],
-              )
+                ),
+              ),
             ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search by name...',
-                hintStyle: const TextStyle(color: Colors.white), // Customize hint text color
-                prefixIcon: const Icon(Icons.search, color: Colors.white), // Customize icon color
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(color: Color.fromARGB(255, 255, 199, 159)), // Customize border color
-                ),
-              ),
-              style: const TextStyle(color: Colors.white), // Customize text color
-              cursorColor: Colors.white, // Customize cursor color
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value.toLowerCase();
-                });
-              },
-            ),
-
-          ),
-          Center(
-            child: Expanded(
-              child: FutureBuilder<int>(
-                future: getNumberOfAnimals(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else {
-                    final numberOfQuizzes = snapshot.data!;
-                    return FutureBuilder<List<Widget>>(
-                      future: _buildFilteredQuizContainers(numberOfQuizzes, context),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return const Center(child: Text('Error loading data'));
-                        } else {
-                          return Wrap(
-                            spacing: 20,
-                            runSpacing: 20,
-                            children: snapshot.data ?? [],
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
           ),
         ],
       ),
