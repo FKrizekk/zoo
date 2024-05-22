@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -432,25 +433,37 @@ class _QuizState extends State<Quiz> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      questions[index].text,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            questions[index].text,
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          ...questions[index].answers.asMap().entries.map((entry) {
+                            int answerIndex = entry.key;
+                            String answerText = entry.value;
+                            return RadioListTile(
+                              title: Text(answerText),
+                              value: answerIndex,
+                              groupValue: selectedAnswers[index],
+                              activeColor: colorOrange,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedAnswers[index] = value!;
+                                });
+                              },
+                            );
+                          }),
+                        ],
+                      ),
                     ),
-                    ...questions[index].answers.asMap().entries.map((entry) {
-                      int answerIndex = entry.key;
-                      String answerText = entry.value;
-                      return RadioListTile(
-                        title: Text(answerText),
-                        value: answerIndex,
-                        groupValue: selectedAnswers[index],
-                        activeColor: colorOrange,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedAnswers[index] = value!;
-                          });
-                        },
-                      );
-                    }),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.arrow_left),Icon(Icons.arrow_right)
+                      ],
+                    )
                   ],
                 ),
               ),
