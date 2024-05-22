@@ -295,6 +295,8 @@ class QuizPage extends StatelessWidget {
                             print("Submitted\nPercentage of correct answers: $percentage%");
                             Map<String, dynamic> percentages = await readPercentages();
                             print(percentages[data["Name"]]);
+
+                            await _showResultDialog(context, percentage);
                           },
                           child: const Text("Submit"),
                         ),
@@ -309,6 +311,38 @@ class QuizPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> _showResultDialog(BuildContext context, double percentage) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // User must tap button to dismiss dialog
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Congratulations!'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('Good job! You got $percentage% correctly.'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor : MaterialStateProperty.all<Color>(const Color.fromARGB(255, 235, 118, 34)),
+              overlayColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 199, 159))
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class Quiz extends StatefulWidget {
