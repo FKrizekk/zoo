@@ -137,7 +137,7 @@ class _NewPageState extends State<NewPage> {
                                 "${totalPercentage.toStringAsFixed(0)}%",
                                 style: const TextStyle(
                                   fontSize: 24,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

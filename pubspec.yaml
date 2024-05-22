@@ -72,6 +72,9 @@ flutter:
     - animal_images/varan.jpg
     - animal_images/zoborozec.png
     - animal_images/lemur.png
+    - animal_images/adax.jpg
+    - animal_images/antilopa.jpg
+    - animal_images/papousek.jpg
     - assets/certificate.pdf
 
     
