@@ -290,10 +290,11 @@ class QuizPage extends StatelessWidget {
                             double percentage = (correctAnswers / _QuizState.selectedAnswers.length) * 100;
 
                             // Store the percentage of correct answers
-                            storePercentage(percentage);
+                            await writePercentage(data["Name"], percentage);
 
                             print("Submitted\nPercentage of correct answers: $percentage%");
-                            print(await loadPercentage());
+                            Map<String, dynamic> percentages = await readPercentages();
+                            print(percentages[data["Name"]]);
                           },
                           child: const Text("Submit"),
                         ),
@@ -437,11 +438,37 @@ class Question {
   });
 }
 
-void storePercentage(double percentage) {
-  // Implement the logic to store the percentage
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+  return directory.path;
 }
 
-Future<double> loadPercentage() async {
-  // Implement the logic to load the stored percentage
-  return 0.0;
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/animal_percentages.json');
+}
+
+Future<Map<String, dynamic>> readPercentages() async {
+  try {
+    final file = await _localFile;
+    if (await file.exists()) {
+      final contents = await file.readAsString();
+      return jsonDecode(contents);
+    } else {
+      return {};
+    }
+  } catch (e) {
+    print("Error reading file: $e");
+    return {};
+  }
+}
+
+Future<void> writePercentage(String animalName, double percentage) async {
+  final file = await _localFile;
+  Map<String, dynamic> data = await readPercentages();
+  
+  data[animalName] = percentage;
+
+  final jsonString = jsonEncode(data);
+  await file.writeAsString(jsonString);
 }

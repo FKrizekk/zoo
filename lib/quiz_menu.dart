@@ -1,11 +1,12 @@
-// new_page.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zoo/main.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'package:flutter/services.dart';
-
+import 'package:path_provider/path_provider.dart';
 
 enum Stats {
   weight,
@@ -22,13 +23,13 @@ Future<Map> readJson(int id) async {
   final d = data[id];
   return d;
 }
+
 Future<int> getNumberOfAnimals() async {
   final String response = await rootBundle.loadString('data/quiz.json');
   final data = await json.decode(response);
   
   return data.length;
 }
-
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -41,14 +42,14 @@ class NewPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorOrange,
       body: FutureBuilder<int>(
-        future: getNumberOfAnimals(), // Call getNumberOfAnimals() here
+        future: getNumberOfAnimals(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            final numberOfQuizzes = snapshot.data;
+            final numberOfQuizzes = snapshot.data!;
             return Stack(
               children: [
                 Image.asset("assets/bg_pawn_orange.png"),
@@ -84,7 +85,7 @@ class NewPage extends StatelessWidget {
                       child: Wrap(
                         spacing: 20,
                         runSpacing: 20,
-                        children: _buildQuizContainers(numberOfQuizzes!, context),
+                        children: _buildQuizContainers(numberOfQuizzes, context),
                       ),
                     ),
                   ],
@@ -175,15 +176,27 @@ class NewPage extends StatelessWidget {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Text(
-                              "userPercent%", // Replace with actual user percentage if available
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: "News Gothic",
-                              ),
+                            FutureBuilder<double?>(
+                              future: getPercentageForAnimal(data["Name"]),
+                              builder: (context, percentageSnapshot) {
+                                if (percentageSnapshot.connectionState == ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (percentageSnapshot.hasError) {
+                                  return Icon(Icons.error);
+                                } else {
+                                  final percentage = percentageSnapshot.data ?? 0.0;
+                                  return Text(
+                                    "${percentage.toStringAsFixed(1)}%",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "News Gothic",
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -198,4 +211,34 @@ class NewPage extends StatelessWidget {
       ),
     );
   }
+
+  Future<double?> getPercentageForAnimal(String animalName) async {
+    final percentages = await readPercentages();
+    return percentages[animalName];
+  }
+}
+
+Future<Map<String, dynamic>> readPercentages() async {
+  try {
+    final file = await _localFile;
+    if (await file.exists()) {
+      final contents = await file.readAsString();
+      return jsonDecode(contents);
+    } else {
+      return {};
+    }
+  } catch (e) {
+    print("Error reading file: $e");
+    return {};
+  }
+}
+
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+  return directory.path;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/animal_percentages.json');
 }
