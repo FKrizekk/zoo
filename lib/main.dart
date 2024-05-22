@@ -334,8 +334,10 @@ Future<void> _showResultDialog(BuildContext context, double percentage) async {
               overlayColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 255, 199, 159))
             ),
             onPressed: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NewPage()),
+              );
             },
             child: const Text('OK'),
           ),
