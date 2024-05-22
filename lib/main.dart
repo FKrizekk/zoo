@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
@@ -253,8 +254,17 @@ class QuizPage extends StatelessWidget {
             Stack(
               alignment: Alignment.topCenter,
               children: [
-                const Image(
-                    image: AssetImage("assets/bg_pawn_orange.png")),
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                        'assets/bg_pawn_orange.png',
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width, // Adjust width as needed
+                        height: MediaQuery.of(context).size.height * 0.8, // Adjust height as needed
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: 50,
                   left: 25,
