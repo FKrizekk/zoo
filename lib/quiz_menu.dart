@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:zoo/main.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -101,14 +102,39 @@ class _NewPageState extends State<NewPage> {
                     ),
                   ),
                   style: const TextStyle(color: Color.fromARGB(255, 255, 199, 159)), // Customize text color
-                  cursorColor: Color.fromARGB(255, 255, 199, 159), // Customize cursor color
+                  cursorColor: const Color.fromARGB(255, 255, 199, 159), // Customize cursor color
                   onChanged: (value) {
                     setState(() {
                       _searchQuery = value.toLowerCase();
                     });
                   },
                 ),
-          
+              ),
+              FutureBuilder<double>(
+                future: getTotalPercentage(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    final totalPercentage = snapshot.data ?? 0.0;
+                    return Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "${totalPercentage.toStringAsFixed(0)}%",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
               Center(
                 child: Expanded(
@@ -243,7 +269,7 @@ class _NewPageState extends State<NewPage> {
                                     } else {
                                       final percentage = percentageSnapshot.data ?? 0.0;
                                       return Text(
-                                        "${percentage.toStringAsFixed(1)}%",
+                                        "${percentage.toStringAsFixed(0)}%",
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           fontSize: 15,
@@ -278,6 +304,17 @@ class _NewPageState extends State<NewPage> {
     return percentages[animalName];
   }
 
+}
+
+Future<double> getTotalPercentage() async {
+  final percentages = await readPercentages();
+  if (percentages.isEmpty) {
+    return 0.0;
+  }
+
+  double total = percentages.values.fold(0.0, (sum, item) => sum + (item ?? 0.0));
+  total /= await getNumberOfAnimals();
+  return total;
 }
 
 Future<Map<String, dynamic>> readPercentages() async {
