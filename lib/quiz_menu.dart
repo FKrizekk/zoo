@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -119,53 +120,63 @@ class _NewPageState extends State<NewPage> {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else {
                     final totalPercentage = snapshot.data ?? 0.0;
-                    return Column(
-                      children: [
-                        Center(
-                          child: Text(
-                            "${totalPercentage.toStringAsFixed(0)}%",
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                    return Container(
+                      margin: EdgeInsets.all(8),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Stack(
+                          children: [
+                            LinearProgressIndicator(
+                              value: totalPercentage / 100,
+                              minHeight: 35,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                              backgroundColor: Colors.white,
                             ),
-                          ),
+                            Center(
+                              child: Text(
+                                "${totalPercentage.toStringAsFixed(0)}%",
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     );
                   }
                 },
               ),
               Center(
-                child: Expanded(
-                  child: FutureBuilder<int>(
-                    future: getNumberOfAnimals(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else {
-                        final numberOfQuizzes = snapshot.data!;
-                        return FutureBuilder<List<Widget>>(
-                          future: _buildFilteredQuizContainers(numberOfQuizzes, context),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Center(child: CircularProgressIndicator());
-                            } else if (snapshot.hasError) {
-                              return const Center(child: Text('Error loading data'));
-                            } else {
-                              return Wrap(
-                                spacing: 20,
-                                runSpacing: 20,
-                                children: snapshot.data ?? [],
-                              );
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
+                child: FutureBuilder<int>(
+                  future: getNumberOfAnimals(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      final numberOfQuizzes = snapshot.data!;
+                      return FutureBuilder<List<Widget>>(
+                        future: _buildFilteredQuizContainers(numberOfQuizzes, context),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return const Center(child: Text('Error loading data'));
+                          } else {
+                            return Wrap(
+                              spacing: 20,
+                              runSpacing: 20,
+                              children: snapshot.data ?? [],
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
                 ),
               ),
             ],
